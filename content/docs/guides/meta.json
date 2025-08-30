@@ -1,0 +1,12 @@
+{
+  "title": "Guides",
+  "description": "How to get going with your next million dollar idea",
+  "defaultOpen": true,
+  "pages": [
+    "basic-usage",
+    "code-editing",
+    "devnet",
+    "deploy-smart-contracts",
+    "publish"
+  ]
+}

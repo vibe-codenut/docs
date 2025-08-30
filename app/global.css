@@ -1,0 +1,18 @@
+@import 'tailwindcss';
+@import 'fumadocs-ui/css/neutral.css';
+@import 'fumadocs-ui/css/preset.css';
+
+@theme inline {
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
+}
+
+:root {
+  --brand: oklch(70% 0.12 83.6);
+  --brand-foreground: oklch(98.5% 0 0);
+}
+
+.dark {
+  --brand: oklch(78.9% 0.12 85.3);
+  --brand-foreground: oklch(20.4% 0 0);
+}
