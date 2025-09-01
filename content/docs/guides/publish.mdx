@@ -1,10 +1,237 @@
 ---
-title: Publish Your DApp
-description: How to publish your DApp
+title: Publishing Your DApp
+description: Learn how to publish your DApp's frontend to the web with custom domains and performance optimization
 ---
 
-# Publish Your DApp
+After deploying your smart contracts to mainnet, you can publish your DApp's frontend to make it live for users. CodeNut provides powerful website publishing with built-in performance optimization and domain management.
 
-## What is Publish Your DApp?
+**Important**: You must deploy your smart contracts to a mainnet blockchain before publishing your DApp. The publishing process creates the production version of your frontend that connects to your deployed contracts.
 
-Publish Your DApp is a feature that allows you to publish your DApp.
+## Publishing Options
+
+### 🌐 Web Application Publishing
+Deploy your React DApp to the web with global CDN support:
+- **One-Click Deployment**: Deploy directly from the CodeNut interface
+- **Global CDN**: Cloudflare-powered content delivery network
+- **DDoS Protection**: Built-in security against attacks
+- **SSL Certificates**: Automatic HTTPS for all domains
+- **Custom Domains**: Connect your own domain name
+
+### 🔗 Domain Configuration
+Professional domain management with DNS integration:
+- **Subdomain Options**: Use free .codenut.xyz subdomains
+- **Custom Domains**: Connect your own purchased domains
+- **DNS Management**: Automatic DNS configuration
+- **Domain Verification**: SSL certificate provisioning
+
+## Publishing Prerequisites
+
+### 1. Deploy Smart Contracts First
+Before you can publish your DApp, you must deploy your smart contracts to a mainnet blockchain:
+
+1. **Complete Development**: Ensure your DApp works correctly on CodeNut Devnet
+2. **Test Thoroughly**: Use the preview interface to test all functionality
+3. **Deploy to Mainnet**: Use the publish dialog's Contract Deploy card to deploy to your chosen EVM-compatible network (Ethereum, Polygon, Arbitrum, BSC, Base, etc.)
+4. **Verify Deployment**: Confirm your contracts are deployed and verified on the blockchain
+
+### 2. Prepare Your Project
+Once your contracts are deployed, ensure your DApp is production-ready:
+- Your frontend automatically connects to the deployed mainnet contracts
+- Environment variables are configured for production
+- SEO metadata and social media tags are optimized
+
+## Publishing Workflow
+
+### 1. Access the Publish Dialog
+Click the **Publish** button (rocket icon) in the top toolbar to open the publish dialog.
+
+### 2. Choose Website Publishing
+The publish dialog shows two main options:
+- **Website Publishing**: Deploy your DApp's frontend to the web
+- **Contract Deployment**: Deploy smart contracts to mainnet (must be completed first)
+
+Select the Website Publishing option to continue.
+
+### 3. Build Process
+CodeNut automatically handles the build process:
+- **Dependency Installation**: All packages are installed automatically
+- **Production Build**: Optimized build for performance
+- **Asset Optimization**: Images and files are compressed
+- **Code Splitting**: JavaScript is split for faster loading
+- **Static Generation**: Pre-renders pages where possible (when SEO is enabled)
+
+## Domain Configuration
+
+### Using .codenut.xyz Subdomains
+Get a free subdomain instantly:
+1. **Choose Subdomain**: Select your desired subdomain name (e.g., `mynft.codenut.xyz`)
+2. **Automatic Configuration**: CodeNut automatically configures DNS
+3. **SSL Provisioning**: SSL certificate is provisioned within minutes
+4. **Go Live**: Your DApp is accessible with HTTPS
+
+### Connecting Your Own Domain
+Bring your own domain for professional branding:
+
+#### Step 1: Add Custom Domain
+In the Website Publishing card, add your custom domain name.
+
+#### Step 2: DNS Configuration
+CodeNut provides DNS records to add to your domain registrar:
+- **CNAME Record**: Points your domain to CodeNut's infrastructure
+- **A Record**: For apex domain support
+- **TXT Record**: For domain verification
+
+#### Step 3: Automatic Verification
+- Domain ownership is verified automatically
+- SSL certificate is issued and configured
+- Your DApp becomes accessible via your custom domain
+
+### Domain Options
+- **Free Subdomains**: Use .codenut.xyz subdomains at no cost
+- **Custom Domains**: Connect domains you own for professional branding
+- **SSL/HTTPS**: Automatic SSL certificates for all domains
+- **Global CDN**: Cloudflare-powered content delivery
+
+## Publishing Configuration
+
+### SEO Optimization
+Enable SEO prerendering for better search engine visibility:
+- **Static Site Generation**: Pre-renders pages for faster loading and SEO
+- **Automatic Sitemap**: Generates XML sitemap for search engines  
+- **Meta Tags**: Optimized titles, descriptions, and social media tags
+- **Open Graph**: Enhanced social media sharing
+
+### Build Environment Variables
+Configure environment-specific settings:
+- **Production Environment**: Automatically uses mainnet contract addresses
+- **API Endpoints**: Points to production APIs and services
+- **Analytics**: Enables production analytics and monitoring
+- **Performance**: Optimized for production performance
+
+## Performance Optimization
+
+### Automatic Optimization
+CodeNut automatically optimizes your DApp for production:
+- **Image Optimization**: WebP conversion and responsive images
+- **Code Splitting**: Lazy loading for improved performance
+- **Caching Strategy**: Intelligent browser and CDN caching
+- **Minification**: JavaScript and CSS compression
+- **Tree Shaking**: Remove unused code from bundles
+
+### CDN Configuration
+Global content delivery powered by Cloudflare:
+- **Edge Locations**: Serve content from the nearest location to users
+- **Cache Control**: Intelligent caching headers
+- **Compression**: Gzip and Brotli compression
+- **HTTP/2**: Modern protocol support for faster loading
+- **DDoS Protection**: Built-in security against attacks
+
+### Analytics and Monitoring
+Track your DApp's performance and usage:
+- **Performance Metrics**: Monitor loading times and user experience
+- **User Analytics**: Track user behavior and engagement
+- **Error Monitoring**: Real-time error tracking and alerts
+- **Uptime Monitoring**: Ensure your DApp stays online
+
+## SEO Configuration
+
+### Enable SEO Prerendering
+When configuring your website publishing, you can enable SEO optimization:
+- **Static Site Generation**: Pre-renders pages for search engines
+- **Route Discovery**: Automatically finds all pages in your DApp
+- **Meta Tags**: Includes optimized titles, descriptions, and social tags
+- **Open Graph**: Enhanced social media sharing previews
+
+### Automatic SEO Features
+- **Sitemap Generation**: XML sitemap automatically created
+- **Robots.txt**: Search engine crawling configuration
+- **Structured Data**: Rich snippets for better search results
+- **Performance**: Fast loading for better search rankings
+
+## Security Features
+
+### Built-in Security
+CodeNut provides enterprise-grade security powered by Cloudflare:
+- **DDoS Protection**: Advanced DDoS mitigation and attack prevention
+- **Web Application Firewall**: Protection against common web attacks
+- **SSL/TLS Encryption**: Automatic HTTPS for all domains
+- **Security Headers**: HSTS, CSP, and other security configurations
+- **Bot Protection**: Advanced bot detection and mitigation
+
+## Environment Management
+
+### Automatic Environment Configuration
+CodeNut automatically manages environment configurations:
+- **Development**: Uses CodeNut Devnet for testing and development
+- **Production**: Automatically switches to mainnet contract addresses
+- **Environment Variables**: Production settings are applied automatically
+- **API Endpoints**: Points to production services and APIs
+
+### Dual Environment System
+- **Preview**: Always uses devnet for testing (accessible via preview interface)
+- **Published**: Uses mainnet contracts for live users (your published domain)
+- **Seamless Switching**: No manual configuration required
+
+## Publishing Checklist
+
+### Before Publishing
+- [ ] **Smart contracts deployed to mainnet** (required first step)
+- [ ] All features tested thoroughly on CodeNut Devnet
+- [ ] DApp works correctly in preview interface
+- [ ] Domain name chosen (subdomain or custom domain)
+
+### During Publication
+- [ ] **Access Publish Dialog**: Click the publish button in the top toolbar
+- [ ] **Select Website Publishing**: Choose the website publishing option
+- [ ] **Configure Domain**: Enter your desired domain name
+- [ ] **Enable SEO** (optional): Turn on SEO prerendering if desired
+- [ ] **Deploy**: Click publish to start the deployment process
+
+### After Publication
+- [ ] **Verify Deployment**: Check that your site is accessible at the published domain
+- [ ] **Test Functionality**: Ensure all DApp features work with mainnet contracts
+- [ ] **SSL Certificate**: Confirm HTTPS is working correctly
+- [ ] **Performance**: Check loading speeds and responsiveness
+- [ ] **Share Your DApp**: Notify users and share your live DApp URL
+
+## Publish History
+
+### Track Your Deployments
+View your publishing history in the publish dialog:
+- **Domain List**: See all domains you've published to
+- **Publish Dates**: Track when each deployment was made
+- **Status**: Monitor the health of your published sites
+- **Publish Count**: Number of times each domain has been updated
+
+### Republishing
+You can republish your DApp anytime to push updates:
+- **Update Code**: Make changes in CodeNut
+- **Republish**: Use the same publish process to deploy updates
+- **Zero Downtime**: Updates deploy seamlessly without interruption
+
+## Troubleshooting
+
+### Common Publishing Issues
+- **Smart Contract Not Deployed**: Ensure mainnet contracts are deployed first
+- **Domain Configuration**: Verify custom domain DNS settings
+- **Build Failures**: Check for any code errors in your DApp
+- **SSL Issues**: Custom domains may take time for SSL certificate provisioning
+
+### Getting Help
+If you encounter issues during publishing:
+- **Check Build Logs**: Review any error messages during the build process
+- **Verify Contracts**: Ensure your smart contracts are properly deployed
+- **Domain Settings**: Double-check custom domain DNS configuration
+- **Try Again**: Many issues resolve by republishing
+
+## Getting Started
+
+Ready to publish your DApp? Follow these steps:
+
+1. **Deploy Smart Contracts**: Use the Contract Deploy card in the publish dialog
+2. **Test Thoroughly**: Ensure everything works on CodeNut Devnet
+3. **Choose Domain**: Decide between free .codenut.xyz subdomain or custom domain
+4. **Publish**: Click the publish button and select website publishing
+5. **Go Live**: Share your DApp with the world!
+
+Your DApp will be live on the web with enterprise-grade hosting, security, and performance optimization.

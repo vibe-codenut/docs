@@ -4,7 +4,7 @@
   "defaultOpen": true,
   "pages": [
     "basic-usage",
-    "code-editing",
+    "features",
     "devnet",
     "deploy-smart-contracts",
     "publish"

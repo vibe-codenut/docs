@@ -1,10 +1,243 @@
 ---
 title: Deploy Smart Contracts
-description: How to deploy smart contracts in CodeNut
+description: Learn how smart contracts are automatically deployed to devnet for testing, then deployed to mainnet for production
 ---
 
-# Deploy Smart Contracts
+CodeNut streamlines smart contract deployment with automatic devnet deployment for testing and seamless mainnet deployment for production. This guide covers the entire deployment workflow from development to production.
 
-## What is Deploy Smart Contracts?
+## Smart Contract Development Workflow
 
-Deploy Smart Contracts is a feature that allows you to deploy smart contracts in CodeNut.
+### 1. AI Contract Generation
+Simply describe what you want to build and CodeNut's AI will handle everything:
+
+```
+"Create an ERC-721 NFT contract with minting functionality"
+"Build a DeFi yield farming contract with staking rewards"
+"Make a simple voting contract for DAO governance"
+```
+
+**What happens automatically:**
+- AI generates complete Solidity contract code
+- Follows security best practices and standards
+- Includes comprehensive comments and documentation
+- Compiles automatically with optimized settings
+- Deploys instantly to CodeNut Devnet
+- Contract address and details displayed in chat
+
+### 2. Automatic Devnet Deployment
+Every smart contract is automatically deployed to CodeNut's development network:
+- **Instant Deployment**: No waiting, no setup required
+- **Zero Cost**: No gas fees for devnet deployment
+- **No Signing**: Contracts deploy without wallet interaction
+- **Immediate Testing**: Start interacting with your contract right away
+
+## Contract Information & Metadata
+
+### Deployment Information
+After your contract is generated and deployed to devnet, you'll see:
+- **Contract Address**: Your devnet contract address
+- **Transaction Hash**: Deployment transaction details
+- **Network Info**: CodeNut Devnet details
+- **ABI**: Application Binary Interface for frontend integration
+
+### Metadata Storage
+All deployment information is automatically saved to your project:
+```json
+// contracts/metadata.json
+{
+  "devnet": {
+    "MyNFTContract": {
+      "address": "0x1234567890abcdef...",
+      "deploymentTx": "0xabcdef1234567890...",
+      "abi": [...],
+      "deployedAt": "2024-08-15T10:30:00Z"
+    }
+  }
+}
+```
+
+### Frontend Integration
+The AI automatically uses this metadata to:
+- Connect your frontend to the deployed contracts
+- Generate appropriate contract interaction code
+- Handle contract calls and transactions
+- Update frontend logic when contracts change
+
+## Testing Your Smart Contracts
+
+### Interactive Testing on Devnet
+The best way to test your smart contracts is by using your DApp:
+
+**Through the Preview Interface:**
+- **Real User Testing**: Interact with your DApp as users would
+- **Instant Feedback**: See results immediately on devnet
+- **Easy Debugging**: Ask the AI to fix issues you discover
+- **Unlimited Resources**: Use the devnet faucet for testing assets
+
+**Example Testing Flow:**
+```
+You: "Test the NFT minting function"
+→ Use the preview interface to mint NFTs
+→ Check if metadata displays correctly
+→ Test different wallet interactions
+
+You: "The minting seems to fail with large quantities"
+AI: Analyzes the issue and fixes the contract
+→ Redeploys automatically to devnet
+→ You test again with the fix
+```
+
+### What to Test
+- **Core Functionality**: All main features of your contract
+- **Edge Cases**: Boundary conditions and error scenarios  
+- **User Workflows**: Complete user journeys through your DApp
+- **Integration**: How contracts work together in your system
+
+## Mainnet Deployment
+
+### Supported EVM-Compatible Networks
+When you're ready for production, deploy to these mainnets:
+
+#### **Layer 1 Networks**
+- **Ethereum**: The original and most secure smart contract platform
+- **Binance Smart Chain (BSC)**: High throughput with low fees
+- **Avalanche**: High-performance blockchain with fast finality
+
+#### **Layer 2 Networks**  
+- **Polygon**: Low-cost Ethereum Layer 2 solution
+- **Arbitrum**: Ethereum Layer 2 with full EVM compatibility
+- **Optimism**: Optimistic rollup scaling solution
+- **Base**: Coinbase's Layer 2 network built on Optimism
+
+### Choosing the Right Network
+**Consider these factors:**
+- **Gas Costs**: Layer 2s typically have much lower fees
+- **Security**: Ethereum mainnet offers the highest security
+- **Speed**: Layer 2s provide faster transaction confirmation
+- **Ecosystem**: Choose networks where your users are active
+- **Liquidity**: Consider available tokens and DeFi protocols
+
+## Mainnet Deployment Process
+
+### 1. Development & Testing (Devnet)
+This happens automatically when you create contracts:
+- AI generates and deploys contracts to devnet instantly
+- Test thoroughly using the preview interface
+- Iterate and fix issues with AI assistance
+- Use devnet faucet for unlimited testing assets
+
+### 2. Ready for Production
+When you're satisfied with your devnet testing, use the Publish dialog to deploy:
+
+1. **Click the Publish Button**: Located in the top toolbar (rocket icon)
+2. **Open Publish Dialog**: A dialog opens showing two main options:
+   - Website Publishing (for your frontend)
+   - Contract Deployment (for mainnet deployment)
+
+### 3. Contract Deployment Process
+**Using the Contract Deploy Card:**
+
+1. **Select Target Network**: Choose from supported mainnets:
+   - Ethereum Mainnet
+   - Polygon 
+   - Binance Smart Chain (BSC)
+   - Arbitrum
+   - Base
+   - Other EVM-compatible networks
+
+2. **Review Deployment Details**: 
+   - See which contracts will be deployed
+   - Review gas cost estimates
+   - Verify deployment settings
+
+3. **Connect Wallet**: Ensure your wallet is connected and has sufficient funds
+
+4. **Deploy Contracts**: Click deploy to initiate the process
+   - Sign the deployment transaction in your wallet
+   - Pay the required gas fees
+   - Wait for deployment confirmation
+
+5. **Verification**: Contracts are automatically verified on the selected network's block explorer
+
+## After Mainnet Deployment
+
+### Updated Project Configuration
+Once deployed to mainnet, your project automatically updates:
+- **Metadata Updated**: `contracts/metadata.json` includes mainnet addresses
+- **Frontend Integration**: Published DApp uses mainnet contract addresses
+- **Dual Environment**: Preview continues using devnet, published version uses mainnet
+
+### Contract Verification
+Your contracts are automatically verified on blockchain explorers:
+- **Etherscan**: For Ethereum mainnet deployments
+- **Polygonscan**: For Polygon network deployments  
+- **Arbiscan**: For Arbitrum network deployments
+- **BSCScan**: For Binance Smart Chain deployments
+
+**Benefits of verification:**
+- Users can read your contract source code
+- Builds trust and transparency
+- Enables better integration with other tools
+- Provides better debugging capabilities
+
+## Pre-Deployment Checklist
+
+Before deploying to mainnet, ensure you've:
+
+### ✅ Devnet Testing Complete
+- [ ] Contract functions work as expected in preview
+- [ ] All user workflows tested thoroughly
+- [ ] Edge cases and error conditions handled
+- [ ] Integration with other contracts verified
+
+### ✅ Security & Quality
+- [ ] AI security analysis reviewed
+- [ ] No obvious vulnerabilities detected
+- [ ] Contract follows best practices
+- [ ] Consider manual audit for high-value contracts
+
+### ✅ Deployment Preparation
+- [ ] Target network selected (Ethereum, Polygon, etc.)
+- [ ] Wallet connected with sufficient funds for gas
+- [ ] Gas costs estimated and acceptable
+- [ ] Ready to sign deployment transaction
+
+## Best Practices
+
+### 1. Thorough Devnet Testing
+Always test extensively on CodeNut Devnet before mainnet:
+- Test every function and feature
+- Try different user scenarios
+- Use the devnet faucet to test with various token amounts
+- Ask the AI to help identify potential issues
+
+### 2. Network Selection Strategy
+Choose your deployment network based on:
+- **Cost vs Security**: Ethereum is most secure but expensive
+- **User Base**: Where are your target users?
+- **Ecosystem**: What protocols and tokens do you need?
+- **Performance**: Layer 2s offer faster, cheaper transactions
+
+### 3. Post-Deployment
+After successful mainnet deployment:
+- Verify your contract is working on the live network
+- Test key functions with small amounts first
+- Monitor for any unusual activity
+- Consider setting up alerts for important events
+
+### 4. Documentation
+- Keep your contract source code and documentation updated
+- Explain key functions and their purpose
+- Document any administrative functions or emergency procedures
+- Share deployment addresses with your team
+
+## Getting Started
+
+Ready to deploy your smart contracts? The process is simple:
+
+1. **Describe your contract**: Tell the AI what you want to build
+2. **Test on devnet**: Use the preview interface to test thoroughly  
+3. **Deploy to mainnet**: Choose your network and deploy when ready
+4. **Publish your DApp**: Make it live for users to interact with
+
+Start by asking the AI to create your first smart contract and experience seamless blockchain development!
