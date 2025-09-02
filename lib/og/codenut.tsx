@@ -52,7 +52,7 @@ function generate({ title, description }: GenerateProps) {
         color: "white",
         backgroundImage: process.env.NEXT_PUBLIC_VERCEL_URL
           ? `url(https://${process.env.NEXT_PUBLIC_VERCEL_URL}/og-image-bg.png)`
-          : "http://localhost:3000/og-image-bg.png",
+          : "url(http://localhost:3000/og-image-bg.png)",
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
