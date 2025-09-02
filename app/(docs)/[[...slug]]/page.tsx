@@ -44,8 +44,24 @@ export async function generateMetadata(
   const page = source.getPage(params.slug);
   if (!page) notFound();
 
+  const image = ["/api/og", ...(params.slug || []), "image.png"].join("/");
+
   return {
     title: page.data.title,
     description: page.data.description,
+    openGraph: {
+      images: image,
+      type: "article",
+      title: page.data.title,
+      description: page.data.description,
+    },
+    twitter: {
+      card: "summary_large_image",
+      images: image,
+      creator: "@codenut_ai",
+      site: "@codenut_ai",
+      title: page.data.title,
+      description: page.data.description,
+    },
   };
 }
