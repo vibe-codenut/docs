@@ -53,14 +53,14 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL("https://codenut.ai"),
+  metadataBase: new URL("https://docs.codenut.ai"),
   alternates: {
     canonical: "/",
   },
   openGraph: {
     title,
     description,
-    url: "https://codenut.ai",
+    url: "https://docs.codenut.ai",
     siteName: "CodeNut",
     images: [
       {
@@ -79,6 +79,7 @@ export const metadata: Metadata = {
     description,
     images: ["/og-image.png"],
     creator: "@codenut_ai",
+    site: "@codenut_ai",
   },
   robots: {
     index: true,
