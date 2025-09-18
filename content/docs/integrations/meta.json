@@ -1,0 +1,9 @@
+{
+  "title": "Integrations",
+  "description": "Use contracts and services from third-party platforms in CodeNut",
+  "defaultOpen": true,
+  "pages": [
+    "thirdweb"
+  ]
+}
+

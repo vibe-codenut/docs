@@ -1,0 +1,91 @@
+---
+title: Use Thirdweb Contracts in CodeNut
+description: Connect and interact with Thirdweb-deployed contracts within CodeNut projects
+---
+
+This guide explains how to use smart contracts that were deployed via Thirdweb directly inside CodeNut. You can read and write to those contracts from your CodeNut-generated dApps and agents.
+
+## Prerequisites
+
+- A contract deployed on Thirdweb (any EVM chain)
+- The contract address and deployed chain ID
+- ABI of the contract (downloaded from Thirdweb or your build artifacts)
+
+## 1) Add Contract Info to Your Project
+
+Prepare the following details:
+
+- Contract address: `0x...`
+- Chain: e.g. Ethereum, Polygon, Base
+- ABI JSON: export or copy from Thirdweb dashboard
+
+You can store the ABI as a local file (e.g. `src/contracts/YourContract.abi.json`) or paste it inline where needed.
+
+## 2) Connect Wallet in the Frontend
+
+In a CodeNut frontend, ensure wallet connection is enabled. If not already, use the platform's wallet components to connect MetaMask or other wallets. Once connected, your dApp can sign transactions and read blockchain state.
+
+## 3) Instantiate a Contract Client
+
+Below is a minimal example using `ethers` style interaction. Adjust to your app structure.
+
+```ts
+import { ethers } from "ethers";
+
+export function getEthersContract(provider: ethers.BrowserProvider, contractAddress: string, abi: any) {
+  const signer = await provider.getSigner();
+  return new ethers.Contract(contractAddress, abi, signer);
+}
+```
+
+If your project uses wagmi/viem, you can create a contract client via viem:
+
+```ts
+import { createPublicClient, createWalletClient, custom, getContract, http } from "viem";
+import { mainnet } from "viem/chains";
+
+const publicClient = createPublicClient({ chain: mainnet, transport: http() });
+const walletClient = createWalletClient({ chain: mainnet, transport: custom(window.ethereum!) });
+
+export function getViemContract(address: `0x${string}`, abi: any) {
+  return getContract({ address, abi, client: { public: publicClient, wallet: walletClient } });
+}
+```
+
+## 4) Read and Write Functions
+
+Reading example:
+
+```ts
+const value = await contract.someViewFunction();
+```
+
+Writing example (requires connected wallet):
+
+```ts
+const tx = await contract.setValue(123);
+await tx.wait();
+```
+
+## 5) Security and Environment
+
+- Never hardcode private keys in the frontend. Use user wallets for signing.
+- For server-side actions, store secrets in environment variables and use server routes.
+- Validate user inputs before sending transactions.
+
+## 6) Future Integrations
+
+This section is designed to scale. For additional platforms (e.g., OpenZeppelin Defender, Alchemy, Tenderly), add new pages under `Integrations` with similar structure:
+
+- Prerequisites
+- Setup
+- Core usage examples (read/write)
+- Security and environment recommendations
+
+## Troubleshooting
+
+- ABI mismatch: ensure the ABI matches the deployed bytecode version
+- Wrong chain: confirm your provider/wallet client targets the same chain as deployment
+- Reverts: check function parameters and on-chain state; use block explorers for logs
+
+
