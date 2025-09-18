@@ -11,81 +11,29 @@ This guide explains how to use smart contracts that were deployed via Thirdweb d
 - The contract address and deployed chain ID
 - ABI of the contract (downloaded from Thirdweb or your build artifacts)
 
-## 1) Add Contract Info to Your Project
+## Just vibe coding
 
-Prepare the following details:
+在 CodeNut 中，你无需手写集成代码，只需描述你的需求，平台会自动生成完整站点并接好合约。
 
-- Contract address: `0x...`
-- Chain: e.g. Ethereum, Polygon, Base
-- ABI JSON: export or copy from Thirdweb dashboard
+示例输入（复制粘贴到对话框）：
 
-You can store the ABI as a local file (e.g. `src/contracts/YourContract.abi.json`) or paste it inline where needed.
+```text
+I have created an NFT contract:
+https://thirdweb.com/base-sepolia-testnet/0xCa52BB6E304c66Dd8Fa78De22B48aCA38d192900
 
-## 2) Connect Wallet in the Frontend
+Please create an NFT website that:
 
-In a CodeNut frontend, ensure wallet connection is enabled. If not already, use the platform's wallet components to connect MetaMask or other wallets. Once connected, your dApp can sign transactions and read blockchain state.
+Displays and sells each NFT from the contract.
 
-## 3) Instantiate a Contract Client
+Fetches the price, supply, and attributes of each NFT directly from the contract.
 
-Below is a minimal example using `ethers` style interaction. Adjust to your app structure.
+Provides a purchase button for each NFT.
 
-```ts
-import { ethers } from "ethers";
-
-export function getEthersContract(provider: ethers.BrowserProvider, contractAddress: string, abi: any) {
-  const signer = await provider.getSigner();
-  return new ethers.Contract(contractAddress, abi, signer);
-}
+Uses a black and gold color scheme to make the website visually appealing.
 ```
 
-If your project uses wagmi/viem, you can create a contract client via viem:
+几分钟后，你会得到一个可用的站点链接（例如 `http://xxxxx`）。
 
-```ts
-import { createPublicClient, createWalletClient, custom, getContract, http } from "viem";
-import { mainnet } from "viem/chains";
-
-const publicClient = createPublicClient({ chain: mainnet, transport: http() });
-const walletClient = createWalletClient({ chain: mainnet, transport: custom(window.ethereum!) });
-
-export function getViemContract(address: `0x${string}`, abi: any) {
-  return getContract({ address, abi, client: { public: publicClient, wallet: walletClient } });
-}
-```
-
-## 4) Read and Write Functions
-
-Reading example:
-
-```ts
-const value = await contract.someViewFunction();
-```
-
-Writing example (requires connected wallet):
-
-```ts
-const tx = await contract.setValue(123);
-await tx.wait();
-```
-
-## 5) Security and Environment
-
-- Never hardcode private keys in the frontend. Use user wallets for signing.
-- For server-side actions, store secrets in environment variables and use server routes.
-- Validate user inputs before sending transactions.
-
-## 6) Future Integrations
-
-This section is designed to scale. For additional platforms (e.g., OpenZeppelin Defender, Alchemy, Tenderly), add new pages under `Integrations` with similar structure:
-
-- Prerequisites
-- Setup
-- Core usage examples (read/write)
-- Security and environment recommendations
-
-## Troubleshooting
-
-- ABI mismatch: ensure the ABI matches the deployed bytecode version
-- Wrong chain: confirm your provider/wallet client targets the same chain as deployment
-- Reverts: check function parameters and on-chain state; use block explorers for logs
+最后，点击右上角的 “Publish”，即可一键发布；你和你的朋友都可以轻松访问。
 
 
