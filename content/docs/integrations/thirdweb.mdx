@@ -3,15 +3,17 @@ title: Use Thirdweb Contracts in CodeNut
 description: Connect and interact with Thirdweb-deployed contracts within CodeNut projects
 ---
 
-This guide explains how to use smart contracts that were deployed via Thirdweb directly inside CodeNut. You can read and write to those contracts from your CodeNut-generated dApps and agents.
+This guide explains how to use smart contracts that were deployed via Thirdweb directly inside CodeNut. The dApps generated in CodeNut will automatically communicate with these contracts.
 
 ## Prerequisites
 
 - A contract deployed on Thirdweb (any EVM chain)
 
-## Just vibe coding
+## How to Integrate 
 
-In CodeNut, you don't need to hand-write integration code. Simply describe your needs, and the platform will generate a complete website and wire up the contract automatically.
+**Just _Vibe Coding_.**
+
+In CodeNut, you don't need to hand-write integration code or do manual configurations. Simply describe your needs, including the thirdweb generated smart contract address, and the agents will understand where the contract is and what it does, and will then generate a complete website and wire up the contract interaction automatically.
 
 Example prompt (paste into the chat):
 
@@ -30,10 +32,12 @@ Provides a purchase button for each NFT.
 Uses a black and gold color scheme to make the website visually appealing.
 ```
 
-After a few minutes, you'll receive a working site link (like `https://thirdweb-demo.codenut.xyz/`).
+After a few minutes, you'll receive a working site, like https://thirdweb-demo.codenut.xyz/.
 
-From there, you can iterate entirely with natural language — tweak layout and copy, adjust colors/typography, add sections and media, change how NFTs are fetched and displayed (price, supply, attributes), wire up purchase flows, connect other chains, or switch themes. Just describe what you want, and CodeNut will update the site accordingly.
+![Thirdweb Demo Website](/images/thirdweb-integration-demo.png)
 
-Finally, click Publish in the top-right to deploy with one click. You and your friends can then access it easily.
+From there, you can continue to iterate with natural language — tweak layout and copy, adjust colors/typography, add sections and media, change how NFTs are fetched and displayed (price, supply, attributes), wire up purchase flows, connect other chains, or switch themes. Just describe what you want, and CodeNut will update the site accordingly.
+
+Finally, click **Publish** in the top-right to deploy the website with one click. You and your friends can now access it easily.
 
 
