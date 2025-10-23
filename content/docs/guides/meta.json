@@ -6,6 +6,7 @@
     "basic-usage",
     "features",
     "devnet",
+    "solana",
     "deploy-smart-contracts",
     "asset-manager",
     "publish"

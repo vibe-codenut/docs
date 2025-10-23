@@ -1,10 +1,13 @@
 import "@/app/global.css";
 import { RootProvider } from "fumadocs-ui/provider";
 import { Metadata } from "next";
-import { Lato } from "next/font/google";
+import { Lato, Figtree } from "next/font/google";
+import { Banner } from "fumadocs-ui/components/banner";
+import Link from "next/link";
 
 const lato = Lato({
   subsets: ["latin"],
+  // weight: ["300", "400", "500", "600", "700", "800", "900"],
   weight: ["300", "400", "700", "900"],
 });
 
@@ -98,6 +101,12 @@ export default function Layout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={lato.className} suppressHydrationWarning>
       <body className="flex flex-col min-h-screen">
+        <Banner variant="rainbow" id="solana-support">
+          Solana Support is now available!{" "}
+          <Link href="/guides/solana" className="ml-2 underline">
+            Learn more
+          </Link>
+        </Banner>
         <RootProvider>{children}</RootProvider>
       </body>
     </html>
