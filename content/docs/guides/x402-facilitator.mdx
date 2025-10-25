@@ -1,0 +1,61 @@
+---
+title: x402 Facilitator Introduction
+description: Learn about the role of an x402 facilitator
+---
+
+# Facilitator Introduction
+
+> Learn about the role of an x402 facilitator
+
+## Why use an x402 facilitator
+
+Facilitators provide shared infrastructure for verifying and settling on-chain payments for HTTP resources using the x402 protocol. They abstract multi-chain complexity, offer a consistent API for resource servers, and enable better reliability, observability, and reuse across multiple merchants and apps.
+
+* Consistent verification and settlement across schemes and networks
+* Offload blockchain operations and complexity from resource servers
+* Serve multiple merchants/apps via a stable `/verify` and `/settle` API
+* Help clients discover merchants via the `/list` endpoint
+
+## Architecture at a glance
+
+<img src="/images/facilitator.svg" alt="x402 sequence diagram" />
+
+* Client: Calls protected resources and constructs payment payloads.
+* Resource Server: Advertises payment requirements, verifies/settles payments, fulfills requests.
+* Facilitator Server: Verifies payment payloads and executes settlements via standard endpoints.
+* Blockchain Networks: Execute and confirm payments.
+
+### Payment flow (facilitator perspective)
+
+From the facilitator's point of view, the key steps of the protocol are:
+
+1. Resource server sends a POST to the facilitator `/verify` endpoint with the Payment Payload and the Payment Requirements selected by the client.
+2. Facilitator validates the payload according to the scheme and network (e.g., signatures, amounts, nonces) and returns a Verification Response.
+3. When the server is ready to execute the payment, it sends a POST to the facilitator `/settle` endpoint with the Payment Payload and Payment Requirements.
+4. Facilitator submits the transaction to the blockchain for the specified scheme/network, waits for confirmation, and returns a Payment Execution Response.
+
+## Facilitator responsibilities
+
+* Expose secure `/verify` and `/settle` endpoints that follow x402 request/response shapes
+* Validate Payment Payloads per scheme and network; prevent replay and ensure idempotency
+* Submit on-chain transactions for settlement and monitor confirmations
+* Provide clear error responses for verification or settlement failures
+* Maintain supported network coverage and RPC/wallet infrastructure
+* Implement observability (logs/metrics/traces), rate limiting, retries, and alerting
+
+## Getting started
+
+CodeNut provides a hosted x402 facilitator service that makes it easy to integrate programmatic payments into your dApps. Our facilitator handles payment verification and settlement, so you don't need to maintain blockchain infrastructure.
+
+**Key features:**
+- **Zero-configuration setup** - Just describe your payment requirements
+- **Multi-chain support** - Works across Ethereum, Base, Solana, and more  
+- **Automatic integration** - No manual blockchain code required
+- **Built-in security** - Handles signature verification and replay protection
+- **Real-time settlement** - Fast payment processing with confirmation monitoring
+
+Live URL: https://pay.codenut.ai/facilitator
+
+## x402 reference
+
+For a deeper dive into the x402 protocol, payment flows, and implementation details, see the [x402 Welcome Guide](https://docs.cdp.coinbase.com/x402/welcome) from Coinbase Developer Platform.

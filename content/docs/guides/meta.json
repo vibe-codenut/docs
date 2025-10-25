@@ -9,6 +9,7 @@
     "solana",
     "deploy-smart-contracts",
     "asset-manager",
-    "publish"
+    "publish",
+    "x402-facilitator"
   ]
 }
