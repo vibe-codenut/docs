@@ -1,0 +1,385 @@
+---
+title: Quickstart for Sellers
+---
+
+This guide walks you through integrating with x402 to enable payments for your API or service. By the end, your API will be able to charge buyers and AI agents for access.
+
+## Prerequisites
+
+Before you begin, ensure you have:
+
+* A crypto wallet to receive funds (any EVM-compatible wallet)
+ * Required for mainnet use until other facilitators go live
+* [Node.js](https://nodejs.org/en) and npm, or Python and pip installed
+* An existing API or server
+
+## 1. Install Dependencies
+
+### Node.js
+
+**Express:**
+
+Install the [x402 Express middleware package](https://www.npmjs.com/package/x402-express):
+
+```bash
+npm install x402-express
+```
+
+**Next.js:**
+
+Install the [x402 Next.js middleware package](https://www.npmjs.com/package/x402-next):
+
+```bash
+npm install x402-next
+```
+
+**Hono:**
+
+Install the [x402 Hono middleware package](https://www.npmjs.com/package/x402-hono):
+
+```bash
+npm install x402-hono
+```
+
+### Python
+
+Install the [x402 Python package](https://pypi.org/project/x402/):
+
+```bash
+pip install x402
+```
+
+## 2. Add Payment Middleware
+
+Integrate the payment middleware into your application. You will need to provide:
+
+* The routes you want to protect
+* Your receiving wallet address
+
+### Node.js
+
+#### Express
+
+```js
+import express from "express";
+import { paymentMiddleware, Network } from "x402-express";
+
+const endpoint = "https://facilitator.codenut.ai";
+const app = express();
+
+app.use(paymentMiddleware(
+  "0xYourAddress", // your receiving wallet address
+  {  // Route configurations for protected endpoints
+    "GET /weather": {
+      // USDC amount in dollars
+      price: "$0.001",
+      network: "base",
+      // Optional: Add metadata for better discovery in x402 Bazaar
+      config: {
+        description: "Get current weather data for any location",
+        inputSchema: {
+          type: "object",
+          properties: {
+            location: { type: "string", description: "City name" }
+          }
+        },
+        outputSchema: {
+          type: "object",
+          properties: {
+            weather: { type: "string" },
+            temperature: { type: "number" }
+          }
+        }
+      }
+    },
+  },
+  {
+    url: endpoint,
+  }
+));
+
+// Implement your route
+app.get("/weather", (req, res) => {
+  res.send({
+    report: {
+      weather: "sunny",
+      temperature: 70,
+    },
+  });
+});
+
+app.listen(4021, () => {
+  console.log(`Server listening at http://localhost:4021`);
+});
+```
+
+#### Next.js
+
+```js
+import { paymentMiddleware, Network } from 'x402-next';
+const endpoint = "https://facilitator.codenut.ai";
+
+// Configure the payment middleware
+export const middleware = paymentMiddleware(
+  "0xYourAddress", // your receiving wallet address
+  {  // Route configurations for protected endpoints
+    '/protected': {
+      price: '$0.01',
+      network: "base",
+      config: {
+        description: 'Access to protected content',
+        // Optional: Add schemas for better discovery
+        inputSchema: {
+          type: "object",
+          properties: {}
+        },
+        outputSchema: {
+          type: "object",
+          properties: {
+            content: { type: "string" }
+          }
+        }
+      }
+    },
+  },
+  {
+    url: endpoint,
+  }
+);
+
+// Configure which paths the middleware should run on
+export const config = {
+  matcher: [
+    '/protected/:path*',
+  ]
+};
+```
+
+#### Hono
+
+```js
+import { Hono } from "hono";
+import { serve } from "@hono/node-server";
+import { paymentMiddleware, Network } from "x402-hono";
+const endpoint = "https://facilitator.codenut.ai";
+
+const app = new Hono();
+
+// Configure the payment middleware
+app.use(paymentMiddleware(
+  "0xYourAddress", // your receiving wallet address
+  {  // Route configurations for protected endpoints
+    "/protected-route": {
+      price: "$0.10",
+      network: "base",
+      config: {
+        description: "Access to premium content",
+      }
+    }
+  },
+  {
+    url: endpoint,
+  }
+));
+
+// Implement your route
+app.get("/protected-route", (c) => {
+  return c.json({ message: "This content is behind a paywall" });
+});
+
+serve({
+  fetch: app.fetch,
+  port: 3000
+});
+```
+
+### Python
+
+#### FastAPI
+
+```python
+import os
+from typing import Any, Dict
+from dotenv import load_dotenv
+from fastapi import FastAPI
+from x402.fastapi.middleware import require_payment
+from x402.types import EIP712Domain, TokenAmount, TokenAsset
+
+# Load environment variables
+load_dotenv()
+app = FastAPI()
+
+# Apply payment middleware to specific routes
+app.middleware("http")(
+    require_payment(
+        path="/weather",
+        price="$0.001",
+        pay_to_address="0xYourAddress",
+        network_id="base",
+        facilitator_url="https://facilitator.codenut.ai",
+        # Optional: Add metadata for better discovery in x402 Bazaar
+        description="Get current weather data for any location",
+        input_schema={
+            "type": "object",
+            "properties": {
+                "location": {"type": "string", "description": "City name"}
+            }
+        },
+        output_schema={
+            "type": "object",
+            "properties": {
+                "weather": {"type": "string"},
+                "temperature": {"type": "number"}
+            }
+        }
+    )
+)
+
+@app.get("/weather")
+async def get_weather() -> Dict[str, Any]:
+    return {
+        "report": {
+            "weather": "sunny",
+            "temperature": 70,
+        }
+    }
+```
+
+#### Flask
+
+```python
+import os
+from flask import Flask, jsonify
+from dotenv import load_dotenv
+from x402.flask.middleware import PaymentMiddleware
+from x402.types import EIP712Domain, TokenAmount, TokenAsset
+
+# Load environment variables
+load_dotenv()
+
+app = Flask(__name__)
+
+# Initialize payment middleware
+payment_middleware = PaymentMiddleware(app)
+
+# Apply payment middleware to specific routes
+payment_middleware.add(
+    path="/weather",
+    price="$0.001",
+    pay_to_address="0xYourAddress",
+    network="base",
+    facilitator_url="https://facilitator.codenut.ai",
+    # Optional: Add metadata for better discovery in x402 Bazaar
+    description="Get current weather data for any location",
+    input_schema={
+        "type": "object",
+        "properties": {
+            "location": {"type": "string", "description": "City name"}
+        }
+    },
+    output_schema={
+        "type": "object",
+        "properties": {
+            "weather": {"type": "string"},
+            "temperature": {"type": "number"}
+        }
+    }
+)
+
+@app.route("/weather")
+def get_weather():
+    return jsonify({
+        "report": {
+            "weather": "sunny",
+            "temperature": 70,
+        }
+    })
+```
+
+### Payment Middleware Configuration Interface
+
+```typescript
+interface PaymentMiddlewareConfig {
+  description?: string;               // Description of the payment
+  mimeType?: string;                  // MIME type of the resource
+  maxTimeoutSeconds?: number;         // Maximum time for payment (default: 60)
+  outputSchema?: Record;              // JSON schema for the response
+  customPaywallHtml?: string;         // Custom HTML for the paywall
+  resource?: string;                  // Resource URL (defaults to request URL)
+}
+```
+
+When a request is made to these routes without payment, your server will respond with the HTTP 402 Payment Required code and payment instructions.
+
+## 3. Test Your Integration
+
+To verify:
+
+1. Make a request to your endpoint (e.g., `curl http://localhost:3000/your-endpoint`).
+2. The server responds with a 402 Payment Required, including payment instructions in the body.
+3. Complete the payment using a compatible client, wallet, or automated agent. This typically involves signing a payment payload, which is handled by the client SDK detailed in the [Quickstart for Buyers](/guides/x402-facilitator/buyers-quickstart).
+4. Retry the request, this time including the `X-PAYMENT` header containing the cryptographic proof of payment (payment payload).
+5. The server verifies the payment via the facilitator and, if valid, returns your actual API response (e.g., `{ "data": "Your paid API response." }`).
+
+## 4. Enhance Discovery with Metadata (Recommended)
+
+When using the CDP facilitator, your endpoints are **automatically listed** in the [x402 Bazaar](/x402/bazaar), our discovery layer that helps buyers and AI agents find services. To improve your visibility and help users understand your API:
+
+> **Tip:** **Include descriptive metadata** in your middleware configuration:
+>
+> * **`description`**: Clear explanation of what your endpoint does
+> * **`inputSchema`**: JSON schema describing required parameters
+> * **`outputSchema`**: JSON schema of your response format
+>
+> This metadata helps:
+>
+> * AI agents automatically understand how to use your API
+> * Developers quickly find services that meet their needs
+> * Improve your ranking in discovery results
+
+Example with full metadata:
+
+```javascript
+{
+  price: "$0.001",
+  network: "base",
+  config: {
+    description: "Get real-time weather data including temperature, conditions, and humidity",
+    inputSchema: {
+      type: "object",
+      properties: {
+        location: {
+          type: "string",
+          description: "City name or coordinates (e.g., 'San Francisco' or '37.7749,-122.4194')"
+        },
+        units: {
+          type: "string",
+          enum: ["celsius", "fahrenheit"],
+          default: "fahrenheit"
+        }
+      },
+      required: ["location"]
+    },
+    outputSchema: {
+      type: "object",
+      properties: {
+        temperature: { type: "number", description: "Current temperature" },
+        conditions: { type: "string", description: "Weather conditions (sunny, cloudy, rainy, etc.)" },
+        humidity: { type: "number", description: "Humidity percentage" }
+      }
+    }
+  }
+}
+```
+
+Learn more about the discovery layer in the [x402 Bazaar documentation](/x402/bazaar).
+
+## Summary
+
+This quickstart covered:
+
+* Installing the x402 SDK and relevant middleware
+* Adding payment middleware to your API and configuring it
+* Testing your integration
+
+Your API is now ready to accept crypto payments through x402.

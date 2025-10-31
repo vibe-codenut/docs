@@ -1,0 +1,11 @@
+{
+    "title": "x402 Facilitator",
+    "description": "How to use the x402 Facilitator",
+    "defaultOpen": true,
+    "pages": [
+      "index",
+      "buyers-quickstart",
+      "sellers-quickstart"
+    ]
+  }
+  

@@ -1,0 +1,228 @@
+---
+title: Quickstart for Buyers
+---
+
+This guide walks you through how to use **x402** to interact with services that require payment. By the end of this guide, you will be able to programmatically discover payment requirements, complete a payment, and access a paid resource.
+
+The x402 helper packages for various languages greatly simplify your integration with x402. You'll be able to automatically detect payment challenges, authorize payments onchain, and retry requests — all with minimal code. The packages will automatically trigger the following flow:
+
+1. Makes the initial request (if using Fetch) or intercepts the initial request (if using Axios/HTTPX/Requests)
+2. If a 402 response is received, parses the payment requirements
+3. Verifies the payment amount is within the allowed maximum
+4. Creates a payment header using the provided wallet client
+5. Retries the request with the payment header
+
+## Prerequisites
+
+Before you begin, ensure you have:
+
+* A crypto wallet with USDC
+* [Node.js](https://nodejs.org/en) and npm, or Python and pip
+* A service that requires payment via x402
+
+## 1. Install Dependencies
+
+### Node.js
+
+Install [x402-axios](https://www.npmjs.com/package/x402-axios) or [x402-fetch](https://www.npmjs.com/package/x402-fetch):
+
+```bash
+npm install x402-axios
+# or
+npm install x402-fetch
+```
+
+### Python
+
+Install the [x402 package](https://pypi.org/project/x402/):
+
+```bash
+pip install x402
+```
+
+## 2. Create a Wallet Client
+
+Create a wallet client using a standalone wallet library ([viem](https://viem.sh/) for EVM on Node.js, [eth-account](https://github.com/ethereum/eth-account) for EVM on Python, or [SolanaKit](https://www.solanakit.com/) for Solana support).
+
+#### EVM
+
+**Node.js (viem):**
+
+Install the required package:
+
+```bash
+npm install viem
+```
+
+Then instantiate the wallet account:
+
+```typescript
+import { createWalletClient, http } from "viem";
+import { privateKeyToAccount } from "viem/accounts";
+import { baseSepolia } from "viem/chains";
+
+// Create a wallet client (using your private key)
+const account = privateKeyToAccount("0xYourPrivateKey"); // we recommend using an environment variable for this
+```
+
+**Python (eth-account):**
+
+Install the required package:
+
+```bash
+pip install eth_account
+```
+
+Then instantiate the wallet account:
+
+```python
+from eth_account import Account
+
+account = Account.from_key("your_private_key") # we recommend using an environment variable for this
+```
+
+#### Solana (SVM)
+
+Use [SolanaKit](https://www.solanakit.com/) to instantiate a signer:
+
+```typescript
+import { createKeyPairSignerFromBytes } from "@solana/kit";
+import { base58 } from "@scure/base";
+
+// 64-byte base58 secret key (private + public)
+const signer = await createKeyPairSignerFromBytes(
+  base58.decode(process.env.SOLANA_PRIVATE_KEY!)
+);
+```
+
+## 3. Make Paid Requests Automatically
+
+You can automatically handle 402 Payment Required responses and complete payment flows using the x402 helper packages.
+
+### Node.js
+
+You can use either `x402-fetch` or `x402-axios`:
+
+#### Using x402-fetch
+
+**x402-fetch** extends the native `fetch` API to handle 402 responses and payment headers for you.
+
+```typescript
+import { wrapFetchWithPayment, decodeXPaymentResponse } from "x402-fetch";
+
+const fetchWithPayment = wrapFetchWithPayment(fetch, account);
+
+fetchWithPayment(url, { //url should be something like https://api.example.com/paid-endpoint
+  method: "GET",
+})
+.then(async response => {
+    const body = await response.json();
+    console.log(body);
+
+    const paymentResponse = decodeXPaymentResponse(response.headers.get("x-payment-response")!);
+    console.log(paymentResponse);
+})
+.catch(error => {
+    console.error(error.response?.data?.error);
+});
+```
+
+**Features:**
+
+* Automatically handles 402 Payment Required responses
+* Verifies payment and generates payment headers
+* Retries the request with proof of payment
+* Supports all standard fetch options
+
+#### Using x402-axios
+
+**x402-axios** adds a payment interceptor to Axios, so your requests are retried with payment headers automatically.
+
+```typescript
+import { withPaymentInterceptor, decodeXPaymentResponse } from "x402-axios";
+import axios from "axios";
+
+// Create an Axios instance with payment handling
+const api = withPaymentInterceptor(
+  axios.create({
+    baseURL, // e.g. https://api.example.com
+  }),
+  account,
+);
+
+api
+  .get(endpointPath) // e.g. /paid-endpoint
+  .then(response => {
+    console.log(response.data);
+
+    const paymentResponse = decodeXPaymentResponse(response.headers["x-payment-response"]);
+    console.log(paymentResponse);
+  })
+  .catch(error => {
+    console.error(error.response?.data?.error);
+  });
+```
+
+**Features:**
+
+* Automatically handles 402 Payment Required responses
+* Retries requests with payment headers
+* Exposes payment response headers
+
+### Python
+
+You can use either `httpx` or `Requests`:
+
+* **Requests** is a well-established library for **synchronous** HTTP requests. Simple and ideal for straightforward, sequential workflows.
+* **HTTPX** is a modern library that supports both **synchronous** and **asynchronous** HTTP requests. Use if you need high concurrency or async capabilities.
+
+Both support a **simple** and **extensible** approach. The simple approach (shown below) returns a pre-configured client that handles payments automatically.
+
+#### Using HTTPX
+
+```python
+from x402.clients.httpx import x402HttpxClient
+# Other imports...
+
+# Wallet creation logic ...
+
+# Create client and make request
+async with x402HttpxClient(account=account, base_url="https://api.example.com") as client:
+    response = await client.get("/protected-endpoint")
+    print(await response.aread())
+```
+
+#### Using Requests
+
+```python
+from x402.clients.requests import x402_requests
+# Other imports...
+
+# Wallet creation logic ...
+
+# Create session and make request
+session = x402_requests(account)
+response = session.get("https://api.example.com/protected-endpoint")
+print(response.content)
+```
+
+## 4. Error Handling
+
+Clients will throw errors if:
+
+* The request configuration is missing
+* A payment has already been attempted for the request
+* There is an error creating the payment header
+
+## Summary
+
+* Install an x402 client package
+* Create a wallet client
+* Use the provided wrapper/interceptor to make paid API requests
+* Payment flows are handled automatically for you
+
+## References
+
+* [x402-fetch npm docs](https://www.npmjs.com/package/x402-fetch)
+* [x402-axios npm docs](https://www.npmjs.com/package/x402-axios)
+* [x402 PyPi page](https://pypi.org/project/x402/)
